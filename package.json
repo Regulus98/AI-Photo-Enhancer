@@ -1,0 +1,20 @@
+{
+  "name": "photo-enhancer",
+  "version": "1.0.0",
+  "description": "AI Photo Enhancement App",
+  "main": "frontend/src/index.js",
+  "scripts": {
+    "start": "cd frontend && npm start",
+    "build": "cd frontend && npm run build",
+    "server": "node server.js"
+  },
+  "keywords": [
+    "photo",
+    "enhancement",
+    "AI",
+    "image",
+    "processing"
+  ],
+  "author": "",
+  "license": "MIT"
+} 

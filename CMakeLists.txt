@@ -14,7 +14,7 @@ include_directories(${PROJECT_SOURCE_DIR}/Asio)
 include_directories(${PROJECT_SOURCE_DIR}/Asio/asio)
 
 # Find OpenCV
-set(OpenCV_DIR "C:/OpenCV/build/x64/vc16/lib")
+set(OpenCV_DIR "C:/OpenCV/opencv/build/x64/vc16/lib")
 find_package(OpenCV REQUIRED)
 
 # Add source to this project's executable.

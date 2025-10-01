@@ -1,12 +1,68 @@
 ﻿import React, { useState, useRef } from "react";
-import { FaCloudUploadAlt, FaSlidersH, FaBrush, FaRegImage, FaDownload } from "react-icons/fa";
+import { FaCloudUploadAlt, FaSlidersH, FaBrush, FaRegImage, FaDownload, FaSmile } from "react-icons/fa";
 import "./style.css";
+import Select from "react-select";
 
 const ENHANCE_OPTIONS = [
   { key: "sharpen", icon: <FaSlidersH />, label: "Sharpen" },
   { key: "denoise", icon: <FaBrush />, label: "Denoise" },
-  { key: "upscale", icon: <FaRegImage />, label: "Upscale" },
+  { key: "colorCorrection", icon: <FaBrush />, label: "Color Correction" },
+  { key: "superResolution", icon: <FaRegImage />, label: "Super-Resolution" },
+  { key: "beautify", icon: <FaSmile />, label: "Beautify" }
 ];
+
+const OUTPUT_FORMATS = [
+  { value: "png", label: "PNG (Best Quality)" },
+  { value: "jpeg", label: "JPEG" }
+];
+
+// Neon style for react-select
+const neonSelectStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    background: "linear-gradient(90deg, #1a1a2e 60%, #00f3ff33 100%)",
+    borderRadius: "1.5em",
+    border: state.isFocused ? "2.5px solid #00f3ff" : "2.5px solid #bc13fe",
+    boxShadow: state.isFocused ? "0 0 30px #00f3ff, 0 0 60px #bc13fe55" : "0 0 18px #bc13fe55, 0 0 36px #00f3ff33",
+    minHeight: 44,
+    color: "#fff",
+    fontWeight: 600,
+    fontSize: "1.13em",
+    paddingLeft: 8,
+    paddingRight: 8,
+    cursor: "pointer",
+  }),
+  singleValue: (provided) => ({
+    ...provided,
+    color: "#fff",
+    fontWeight: 700,
+    fontSize: "1.13em",
+  }),
+  menu: (provided) => ({
+    ...provided,
+    background: "#181828",
+    borderRadius: "1em",
+    boxShadow: "0 0 18px #00f3ff99, 0 0 30px #bc13fe55",
+    color: "#fff",
+    fontWeight: 600,
+    fontSize: "1.13em",
+    zIndex: 10,
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    background: state.isSelected ? "#00f3ff33" : state.isFocused ? "#bc13fe33" : "#181828",
+    color: state.isSelected ? "#fff" : "#fff",
+    fontWeight: state.isSelected ? 700 : 600,
+    cursor: "pointer",
+  }),
+  dropdownIndicator: (provided, state) => ({
+    ...provided,
+    color: state.isFocused ? "#00f3ff" : "#bc13fe",
+    paddingRight: 12,
+  }),
+  indicatorSeparator: () => ({ display: "none" }),
+  input: (provided) => ({ ...provided, color: "#fff" }),
+};
 
 export default function UploadPage() {
   const [original, setOriginal] = useState(null);
@@ -14,13 +70,17 @@ export default function UploadPage() {
   const [options, setOptions] = useState({
     sharpen: false,
     denoise: false,
-    upscale: false,
+    colorCorrection: false,
+    superResolution: false,
+    beautify: false,
   });
   const [slider, setSlider] = useState(50); // Start at 50 (middle)
   const [isDragging, setIsDragging] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [fileObj, setFileObj] = useState(null);
+  const [outputFormat, setOutputFormat] = useState("png");
+  const [jpegQuality, setJpegQuality] = useState(95);
   const fileInput = useRef();
   const sliderRef = useRef();
 
@@ -31,6 +91,15 @@ export default function UploadPage() {
     setEnhanced(null);
     setFileObj(file);
     setSlider(50);
+    setOptions({
+      sharpen: false,
+      denoise: false,
+      colorCorrection: false,
+      superResolution: false,
+      beautify: false,
+    });
+    setOutputFormat("png");
+    setJpegQuality(95);
   };
 
   // Actually call enhancement (when options are picked)
@@ -39,7 +108,11 @@ export default function UploadPage() {
     setIsLoading(true);
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("options", JSON.stringify(opts));
+    formData.append("options", JSON.stringify({
+      ...opts,
+      outputFormat,
+      jpegQuality: outputFormat === "jpeg" ? jpegQuality : undefined
+    }));
     try {
       const res = await fetch("http://127.0.0.1:8080/api/upload", {
         method: "POST",
@@ -70,7 +143,7 @@ export default function UploadPage() {
     const newOptions = { ...options, [key]: !options[key] };
     setOptions(newOptions);
     setEnhanced(null);
-    if (fileObj && (newOptions.sharpen || newOptions.denoise || newOptions.upscale)) {
+    if (fileObj && (newOptions.sharpen || newOptions.denoise || newOptions.colorCorrection || newOptions.superResolution || newOptions.beautify)) {
       enhanceNow(newOptions, fileObj);
     }
   };
@@ -126,9 +199,6 @@ export default function UploadPage() {
     }
   }, [isDragging]);
 
-  // For the wipe effect, we use two images absolutely stacked, but only one is visible per pixel: left is original, right is enhanced (or original if not enhanced yet)
-  // The top image is clipped to the left of the slider, the bottom image is clipped to the right
-
   return (
     <div className="neon-bg">
       <div className="neon-container">
@@ -171,7 +241,6 @@ export default function UploadPage() {
 
         {original && (
           <div className="slider-wrapper" ref={sliderRef}>
-            {/* Bottom image: enhanced if available, else original */}
             <img
               src={enhanced ? enhanced : original}
               className="slider-img"
@@ -183,7 +252,6 @@ export default function UploadPage() {
               }}
               draggable={false}
             />
-            {/* Top image: original, clipped to the left of the slider */}
             <img
               src={original}
               className="slider-img slider-img-wipe"
@@ -216,9 +284,43 @@ export default function UploadPage() {
         )}
 
         {enhanced && (
-          <button className="neon-download noselect" onClick={handleDownload} disabled={isLoading}>
-            <FaDownload /> Download
-          </button>
+          <div className="neon-download-row">
+            <div className="neon-format-box neon-format-box-inline">
+              <label className="neon-format-label">
+                <span style={{display:'flex',alignItems:'center',gap:'0.4em'}}>
+                  <FaRegImage style={{color:'#00f3ff',fontSize:'1.2em',filter:'drop-shadow(0 0 6px #00f3ff)'}}/>
+                  <span>Format</span>
+                </span>
+                <Select
+                  classNamePrefix="neon-format-select"
+                  styles={neonSelectStyles}
+                  value={OUTPUT_FORMATS.find(f => f.value === outputFormat)}
+                  onChange={opt => setOutputFormat(opt.value)}
+                  options={OUTPUT_FORMATS}
+                  isSearchable={false}
+                  isDisabled={isLoading}
+                />
+              </label>
+              {outputFormat === "jpeg" && (
+                <label className="neon-format-label">
+                  <span style={{marginLeft:'0.5em'}}>Quality</span>
+                  <input
+                    type="range"
+                    min={70}
+                    max={100}
+                    value={jpegQuality}
+                    onChange={e => setJpegQuality(Number(e.target.value))}
+                    className="neon-quality-range"
+                    disabled={isLoading}
+                  />
+                  <span className="neon-quality-value">{jpegQuality}</span>
+                </label>
+              )}
+            </div>
+            <button className="neon-download noselect" onClick={handleDownload} disabled={isLoading}>
+              <FaDownload /> Download
+            </button>
+          </div>
         )}
 
         {error && <div className="error-message noselect">{error}</div>}

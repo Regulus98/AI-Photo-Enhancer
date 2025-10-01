@@ -14,7 +14,7 @@
   .neon-bg {
     min-height: 100vh;
     min-width: 100vw;
-    background: linear-gradient(120deg, #e52d27 0%, #0f2027 30%, #2c5364 60%, #bc13fe 80%, #00f3ff 100%);
+    background: linear-gradient(120deg, #e52d27 10%, #0f2027 30%, #2c5364 60%, #bc13fe 80%, #ffcc00 100%);
     background-size: 200% 200%;
     animation: neon-move 12s ease-in-out infinite;
     display: flex;
@@ -38,23 +38,23 @@
   }
   .neon-title {
     color: #bc13fe;
-    font-size: 3.5rem;
+    font-size: 5rem;
     text-shadow: 0 0 18px #bc13fe, 0 0 50px #00f3ff;
     margin-bottom: 2.5rem;
   }
   .neon-title.neon-blue {
     color: #00f3ff;
     text-shadow: 0 0 18px #00f3ff, 0 0 50px #bc13fe;
-  }
+    }
   .upload-box {
     border: 2px dashed #00f3ff;
     border-radius: 1.8em;
     background: rgba(0,0,0,0.3);
     padding: 3.5em 2.5em;
     margin-bottom: 2.5em;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     gap: 1.2em;
     color: #00f3ff;
     font-size: 1.3em;
@@ -108,9 +108,9 @@
     border-radius: 1.5em;
     padding: 0.7em 2.2em;
     font-size: 1.3em;
-    font-weight: 600;
+        font-weight: 600;
     box-shadow: 0 0 18px #bc13fe55;
-    cursor: pointer;
+        cursor: pointer;
     transition: background 0.2s, color 0.2s;
     display: flex;
     align-items: center;
@@ -121,7 +121,7 @@
     background: #bc13fe;
     color: #fff;
     box-shadow: 0 0 30px #bc13fe, 0 0 60px #00f3ff55;
-  }
+}
   .slider-wrapper {
     position: relative;
     width: 100%;
@@ -134,13 +134,13 @@
     box-shadow: 0 0 40px #00f3ff55;
     background: #111;
     user-select: none;
-  }
+}
   .slider-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-  }
+}
   .slider-after {
     position: absolute;
     top: 0; left: 0; bottom: 0;
@@ -150,12 +150,12 @@
     box-shadow: 0 0 18px #bc13fe;
     height: 100%;
     pointer-events: none;
-  }
+}
   .slider-after img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-  }
+}
   .slider-divider {
     position: absolute;
     top: 0; bottom: 0;
@@ -166,7 +166,7 @@
     z-index: 5;
     cursor: ew-resize;
     transition: background 0.2s;
-  }
+        }
   .slider-label {
     position: absolute;
     top: 18px;
@@ -198,8 +198,8 @@
   }
   .neon-download:hover {
     box-shadow: 0 0 60px #bc13fe, 0 0 120px #00f3ff;
-  }
-  .processing-overlay {
+    }
+.processing-overlay {
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;
     background: rgba(0,0,0,0.7);
@@ -208,8 +208,8 @@
     align-items: center;
     justify-content: center;
     z-index: 1000;
-  }
-  .loading-spinner {
+}
+.loading-spinner {
     width: 70px;
     height: 70px;
     border: 7px solid #00f3ff55;
@@ -217,13 +217,13 @@
     border-radius: 50%;
     animation: spin 1s linear infinite;
     margin-bottom: 1.5em;
-  }
-  @keyframes spin {
+}
+@keyframes spin {
     to { transform: rotate(360deg); }
-  }
+}
   .processing-text {
     color: #bc13fe;
-    font-size: 1.5em;
+    font-size: 3em;
     text-shadow: 0 0 18px #bc13fe;
   }
   .error-message {
@@ -235,11 +235,11 @@
     text-align: left;
     border-radius: 5px;
     font-size: 1.2em;
-  }
+    }
   @media (max-width: 1400px) {
     .neon-container { max-width: 99vw; }
     .slider-wrapper { max-width: 99vw; min-width: 0; }
-  }
+}
   @media (max-width: 900px) {
     .neon-container { padding: 2rem 0.5rem; }
     .slider-wrapper { max-width: 99vw; min-width: 0; }
@@ -249,4 +249,133 @@
   .slider-img-wipe {
     pointer-events: none;
     user-select: none;
-  }
+}
+.neon-format-box,
+.neon-format-box-inline {
+  background: linear-gradient(90deg, #1a1a2e 60%, #00f3ff33 100%);
+  border-radius: 2em;
+  box-shadow: 0 0 30px #bc13fe55, 0 0 60px #00f3ff33;
+  display: flex;
+  align-items: center;
+  gap: 1.2em;
+  border: 2.5px solid #bc13fe;
+  transition: box-shadow 0.2s, border-color 0.2s, background 0.2s;
+  min-width: 0;
+  margin: 0;
+  padding: 2em 2em;
+}
+.neon-format-box:hover, .neon-format-box-inline:hover {
+  box-shadow: 0 0 60px #bc13fe, 0 0 120px #00f3ff;
+  border-color: #00f3ff;
+  background: linear-gradient(90deg, #1a1a2e 40%, #00f3ff77 100%);
+}
+.neon-format-select {
+  background: transparent;
+  color: #00f3ff;
+  border: none;
+  font-size: 1.13em;
+  font-weight: 600;
+  border-radius: 1.5em;
+  padding: 0.7em 1.2em 0.7em 0.7em;
+  margin-left: 0.7em;
+  min-width: 50px;
+  width: 100%;
+  flex: 1 1 auto;
+  height: 48px;
+  line-height: 1.7;
+  box-shadow: 0 0 10px #00f3ff33;
+  outline: none;
+  appearance: none;
+  position: relative;
+  transition: box-shadow 0.2s, background 0.2s, color 0.2s;
+  box-sizing: border-box;
+  vertical-align: middle;
+}
+.neon-format-select:hover, .neon-format-select:focus {
+  background: #00f3ff22;
+  color: #fff;
+  box-shadow: 0 0 18px #00f3ff99, 0 0 30px #bc13fe55;
+}
+.neon-format-select option {
+  background: #fff;
+  color: #111;
+  font-size: 1.1em;
+}
+.neon-quality-range {
+  accent-color: #bc13fe;
+  width: 120px;
+  margin-left: 0.7em;
+  vertical-align: middle;
+}
+.neon-quality-value {
+  color: #00f3ff;
+  font-weight: 900;
+  margin-left: 0.7em;
+  font-size: 1.35em;
+  text-shadow: 0 0 8px #00f3ff, 0 0 16px #bc13fe;
+}
+.neon-download-row {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 1.5em;
+  margin-top: 2em;
+}
+.neon-format-box-inline {
+  min-width: 120px;
+  width: auto;
+  max-width: none;
+  padding: 0.7em 1.5em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+}
+.neon-format-box-inline:hover {
+  box-shadow: 0 0 60px #bc13fe, 0 0 50px #00f3ff;
+  border-color: #00f3ff;
+  background: linear-gradient(90deg, #1a1a2e 40%, #00f3ff77 100%);
+}
+.neon-format-box-inline .neon-format-label {
+  color: #bc13fe;
+  font-weight: 600;
+  font-size: 1.15em;
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+}
+.neon-format-select::-ms-expand {
+  display: none;
+}
+.neon-format-select::after {
+  content: '';
+  position: absolute;
+  right: 1.2em;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 6px solid transparent;
+  border-top: 7px solid #00f3ff;
+  pointer-events: none;
+}
+.neon-quality-range {
+  margin-left: 0.7em;
+  width: 100px;
+  height: 32px;
+}
+.neon-download-row .neon-download {
+  margin-top: 0;
+  margin-left: 1.2em;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.neon-format-select {
+  min-width: 120px;
+  width: 100%;
+  height: 40px;
+  padding: 0.5em 1em 0.5em 0.7em;
+  font-size: 1.08em;
+  line-height: 1.5;
+}

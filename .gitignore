@@ -38,5 +38,7 @@
 .DS_Store
 Thumbs.db
 
-# VSCode (keep if useful for team)
-#.vscode/
+# Visual Studio cache
+.vs/
+.vscode/
+*.ipch

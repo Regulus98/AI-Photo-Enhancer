@@ -2,6 +2,11 @@
 
 An end‑to‑end photo enhancement app with a modern neon UI and a C++/OpenCV backend. The frontend provides a Remini.ai–style experience with a before/after slider, enhancement options, and a polished neon theme. The backend uses OpenCV to apply sharpening, denoising, color correction (CLAHE), super‑resolution (resize), and optional beautify (face smoothing) with face detection.
 
+
+![Main Page](docs/main-page.png)
+
+![Options Page](docs/options-page.png)
+
 ## Features
 - Neon, diagonal gradient background with frosted‑glass container
 - Centered, glowing heading: “AI Photo Enhancer”
